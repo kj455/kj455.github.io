@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, VFC } from 'react';
 import { useCellNum } from '../hooks/useCellNums';
 import { Cell } from './Cell';
 
-const INITIAL_ALIVE_RATIO = 0.1;
+const INITIAL_ALIVE_RATIO = 0.08;
 const INTERVAL = 1000;
 
 type Field = boolean[][];
@@ -34,14 +34,29 @@ const countAliveNeighbors = (arr: Field, i: number, j: number): number => {
 
 const nextCells = (array: Field): Field => {
   const next = [...array];
-  array.forEach((row, i) => {
-    row.forEach((currentCell, j) => {
-      const neighbors = countAliveNeighbors(next, i, j);
-      next[i][j] = currentCell
-        ? neighbors === 2 || neighbors === 3
-        : neighbors === 3;
-    });
-  });
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      const aliveNeighbors = countAliveNeighbors(array, i, j);
+      if (array[i][j]) {
+        if (aliveNeighbors < 2 || aliveNeighbors > 3) {
+          next[i][j] = false;
+        }
+      } else {
+        if (aliveNeighbors === 3) {
+          next[i][j] = true;
+        }
+      }
+    }
+  }
+
+  // array.forEach((row, i) => {
+  //   row.forEach((currentCell, j) => {
+  //     const neighbors = countAliveNeighbors(array, i, j);
+  //     next[i][j] = currentCell
+  //       ? neighbors === 2 || neighbors === 3
+  //       : neighbors === 3;
+  //   });
+  // });
   return next;
 };
 

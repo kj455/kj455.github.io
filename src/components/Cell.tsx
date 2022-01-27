@@ -6,7 +6,9 @@ type Props = {
 };
 
 export const Cell = memo<Props>(({ isAlive, onClick }) => {
-  const colorStyle = isAlive ? 'bg-blue-300' : 'bg-gray-300';
+  const colorStyle = isAlive
+    ? 'bg-blue-300 dark:bg-blue-900'
+    : 'bg-[#d4dce0] dark:bg-[#0f172b]';
   return (
     <div
       className={`w-3 h-3 flex-shrink-0 ${colorStyle}`}
