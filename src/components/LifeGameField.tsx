@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState, VFC } from 'react';
 import { useCellNum } from '../hooks/useCellNums';
+import { useRenderOnResize } from '../hooks/useRenderOnResize';
 import { Cell } from './Cell';
 
-const INITIAL_ALIVE_RATIO = 0.08;
+const INITIAL_ALIVE_RATIO = 0.1;
 const INTERVAL = 1000;
 
 type Field = boolean[][];
@@ -18,7 +19,11 @@ const generate2DArrayRandom = (m: number, n: number): Field => {
   );
 };
 
-const countAliveNeighbors = (arr: Field, i: number, j: number): number => {
+export const countAliveNeighbors = (
+  arr: Field,
+  i: number,
+  j: number
+): number => {
   return (
     // prettier-ignore
     Number(arr[i - 1]?.[j - 1] ? true : false) +
@@ -32,35 +37,20 @@ const countAliveNeighbors = (arr: Field, i: number, j: number): number => {
   );
 };
 
-const nextCells = (array: Field): Field => {
+export const nextCells = (array: Field): Field => {
   const next = [...array];
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array[i].length; j++) {
-      const aliveNeighbors = countAliveNeighbors(array, i, j);
-      if (array[i][j]) {
-        if (aliveNeighbors < 2 || aliveNeighbors > 3) {
-          next[i][j] = false;
-        }
-      } else {
-        if (aliveNeighbors === 3) {
-          next[i][j] = true;
-        }
-      }
-    }
-  }
-
-  // array.forEach((row, i) => {
-  //   row.forEach((currentCell, j) => {
-  //     const neighbors = countAliveNeighbors(array, i, j);
-  //     next[i][j] = currentCell
-  //       ? neighbors === 2 || neighbors === 3
-  //       : neighbors === 3;
-  //   });
-  // });
+  array.forEach((row, i) => {
+    row.forEach((currentCell, j) => {
+      const neighbors = countAliveNeighbors(array, i, j);
+      next[i][j] = currentCell
+        ? neighbors === 2 || neighbors === 3
+        : neighbors === 3;
+    });
+  });
   return next;
 };
 
-export const Field: VFC = () => {
+export const LifeGameField: VFC = () => {
   const { rows, columns } = useCellNum();
   const [cells, setCells] = useState(generate2DArrayRandom(rows, columns));
 
@@ -74,10 +64,11 @@ export const Field: VFC = () => {
   );
 
   useEffect(() => {
-    setInterval(() => {
-      setCells((cells) => nextCells(cells));
+    const id = setInterval(() => {
+      setCells(nextCells(cells));
     }, INTERVAL);
-  }, []);
+    return () => clearInterval(id);
+  }, [cells]);
 
   return (
     <div>
