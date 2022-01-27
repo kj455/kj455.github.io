@@ -4,7 +4,7 @@ import { LifeGameField } from './components/LifeGameField';
 
 function App() {
   return (
-    <div className="font-orbitron">
+    <div className="font-orbitron overflow-hidden">
       <LifeGameField />
       <div className="fixed top-8 left-8">
         <Header />
