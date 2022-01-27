@@ -1,7 +1,5 @@
 import React from 'react';
 
-type Props = {};
-
 export const Footer: React.VFC = () => {
   return (
     <div className="flex flex-col gap-4 text-right text-slate-200">
