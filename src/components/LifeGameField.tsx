@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState, VFC } from 'react';
 import { useCellNum } from '../hooks/useCellNums';
-import { useRenderOnResize } from '../hooks/useRenderOnResize';
 import { Cell } from './Cell';
 
 const INITIAL_ALIVE_RATIO = 0.1;

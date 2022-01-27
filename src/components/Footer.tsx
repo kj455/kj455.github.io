@@ -14,7 +14,7 @@ export const Footer: React.VFC = () => {
       <a className="flex-grow-0" href="https://twitter.com/kj4555">
         Twitter
       </a>
-      <h1 className="text-slate-200 text-3xl">Ibuki Kaji</h1>
+      <h1 className="text-slate-100 text-3xl">Ibuki Kaji</h1>
     </div>
   );
 };
