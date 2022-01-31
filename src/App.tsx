@@ -1,11 +1,18 @@
 import { LifeGameField } from 'react-life-game';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
+import { useColorScheme } from './hooks/useColorScheme';
 
 function App() {
+  const colorScheme = useColorScheme();
   return (
     <div className="font-orbitron overflow-hidden">
-      <LifeGameField />
+      <LifeGameField
+        option={{
+          aliveColor: colorScheme === 'dark' ? '#1e3a8a' : 'turquoise',
+          deadColor: colorScheme === 'dark' ? '#0f172b' : 'whitesmoke',
+        }}
+      />
       <div className="fixed top-8 left-8">
         <Header />
       </div>
