@@ -1,6 +1,6 @@
+import { LifeGameField } from 'react-life-game';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
-import { LifeGameField } from './components/LifeGameField';
 
 function App() {
   return (
