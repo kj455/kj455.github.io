@@ -36,8 +36,8 @@ options:
 substitutions:
   _DEPLOY_REGION: asia-northeast1
   _GCR_HOSTNAME: gcr.io
-  _SERVICE_NAME: kj-homepage
+  _SERVICE_NAME: terraformed-run
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
-  - kj-homepage
+  - terraformed-run

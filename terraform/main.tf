@@ -47,7 +47,7 @@ resource "google_project_iam_member" "cloudbuild_iam" {
 }
 
 resource "google_cloudbuild_trigger" "cloudbuild_run_trigger" {
-  location = var.project_region
+  location = "global"
   name     = "cloudbuild-run-trigger"
   filename = "cloudbuild.yaml"
 
