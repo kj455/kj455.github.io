@@ -17,6 +17,49 @@ provider "google" {
   credentials = "credentials.json"
 }
 
+variable "cloudbuild_sa_id" {
+  type = string
+}
+
+variable "gcp_service_list" {
+  type = list(string)
+  default = [
+    "cloudbuild.googleapis.com",
+    "containerregistry.googleapis.com",
+    "run.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
+  ]
+}
+
+resource "google_project_service" "activate_gcp_services" {
+  for_each = toset(var.gcp_service_list)
+  service  = each.key
+}
+
+resource "google_project_iam_member" "cloudbuild_iam" {
+  for_each = toset([
+    "roles/run.developer",
+    "roles/iam.serviceAccountUser"
+  ])
+  role    = each.key
+  member  = "serviceAccount:${var.cloudbuild_sa_id}@cloudbuild.gserviceaccount.com"
+  project = var.project_id
+}
+
+resource "google_cloudbuild_trigger" "cloudbuild_run_trigger" {
+  location = var.project_region
+  name     = "cloudbuild-run-trigger"
+  filename = "cloudbuild.yaml"
+
+  github {
+    owner = "kj455"
+    name  = "kj455.github.io"
+    push {
+      branch = "^main$"
+    }
+  }
+}
+
 resource "google_cloud_run_service" "default" {
   name                       = "terraformed-run"
   location                   = var.project_region
