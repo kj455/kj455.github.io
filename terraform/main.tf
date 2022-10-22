@@ -21,21 +21,6 @@ variable "cloudbuild_sa_id" {
   type = string
 }
 
-variable "gcp_service_list" {
-  type = list(string)
-  default = [
-    "cloudbuild.googleapis.com",
-    "containerregistry.googleapis.com",
-    "run.googleapis.com",
-    "cloudresourcemanager.googleapis.com"
-  ]
-}
-
-resource "google_project_service" "activate_gcp_services" {
-  for_each = toset(var.gcp_service_list)
-  service  = each.key
-}
-
 resource "google_project_iam_member" "cloudbuild_iam" {
   for_each = toset([
     "roles/run.developer",
