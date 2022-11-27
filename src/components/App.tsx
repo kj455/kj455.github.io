@@ -1,7 +1,7 @@
 import { LifeGameField } from 'react-life-game';
-import { Footer } from './components/Footer';
-import { Header } from './components/Header';
-import { useColorScheme } from './hooks/useColorScheme';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import { useColorScheme } from '../hooks/useColorScheme';
 
 function App() {
   const colorScheme = useColorScheme();
